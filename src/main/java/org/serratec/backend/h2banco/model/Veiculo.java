@@ -1,11 +1,18 @@
 package org.serratec.backend.h2banco.model;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -35,6 +42,15 @@ public class Veiculo {
 
 	@Embedded
 	private Caracteristica caracteristica;
+
+	@OneToOne
+	@JoinColumn(name = "id_proprietario")
+	@JsonManagedReference
+	private Proprietario proprietario;
+
+	@OneToMany(mappedBy = "veiculo")
+	@JsonManagedReference
+	private List<Manutencao> manutencoes;
 
 	public Long getId() {
 		return id;
@@ -74,6 +90,22 @@ public class Veiculo {
 
 	public void setCaracteristica(Caracteristica caracteristica) {
 		this.caracteristica = caracteristica;
+	}
+
+	public Proprietario getProprietario() {
+		return proprietario;
+	}
+
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
+	}
+
+	public List<Manutencao> getManutencoes() {
+		return manutencoes;
+	}
+
+	public void setManutencoes(List<Manutencao> manutencoes) {
+		this.manutencoes = manutencoes;
 	}
 
 }
