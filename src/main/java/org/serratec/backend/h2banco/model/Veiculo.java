@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -23,33 +24,40 @@ public class Veiculo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Schema(description = "Identificador unico do veiculo")
 	private Long id;
 
 	@NotBlank(message = "Preencha a placa")
 	@Size(max = 7)
 	@Column(nullable = false, length = 7)
+	@Schema(description = "Placa do veiculo")
 	private String placa;
 
 	@NotBlank(message = "Preencha a marca")
 	@Size(max = 30)
 	@Column(nullable = false, length = 30)
+	@Schema(description = "Nome da fabricante do veiculo")
 	private String marca;
 
 	@NotBlank(message = "Preencha o modelo")
 	@Size(max = 30)
 	@Column(nullable = false, length = 30)
+	@Schema(description = "Modelo do veiculo")
 	private String modelo;
 
 	@Embedded
+	@Schema(description = "Caracteristicas gerais do veiculo")
 	private Caracteristica caracteristica;
 
 	@OneToOne
 	@JoinColumn(name = "id_proprietario")
 	@JsonManagedReference
+	@Schema(description = "Proprietario do veiculo")
 	private Proprietario proprietario;
 
 	@OneToMany(mappedBy = "veiculo")
 	@JsonManagedReference
+	@Schema(description = "Manutenções realizadas pelo veiculo")
 	private List<Manutencao> manutencoes;
 
 	public Long getId() {
